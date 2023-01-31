@@ -1,12 +1,18 @@
+from typing import Any
+
+
 class ListNode:
     class HEAD:
         def __str__(self):
             return "<Doubly LinkedList HEAD>"
 
+    def __call__(self,) -> Any:
+        return self.data
+
     prev: 'ListNode'
     next: 'ListNode'
 
-    def __init__(self, data=None):
+    def __init__(self, data: Any = None):
         self.data = data
         self.prev = self
         self.next = self
@@ -45,7 +51,7 @@ class DLinkedList:
     def is_empty(self):
         return self.len == 0
 
-    def insert(self, data, index: int = len):
+    def insert(self, data: Any, index: int = len):
         '''
         Insert data before index.
         (Put data at index)
@@ -85,7 +91,7 @@ class DLinkedList:
 
         self.len += 1
 
-    def append(self, data):
+    def append(self, data: Any):
         '''
         Insert data **BEFORE** HEAD.
         Equals insert(data,0)
@@ -127,6 +133,3 @@ def test_DLinkedList():
         print(i)
 
     print(ll[7])
-
-
-test_DLinkedList()
