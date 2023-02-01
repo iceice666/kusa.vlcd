@@ -4,7 +4,7 @@ from typing import NewType
 
 Method = NewType('Method', str)
 BY_VIDEO_ID = Method("id")
-BY_VIDEO_URL = Method("url")
+BY_VIDEO_URI = Method("uri")
 
 Status = NewType('Status', str)
 VIDEO_AVABILABLE = Status("avabilable")
@@ -16,7 +16,7 @@ VIDEO_UNKNOWN = Status("unknown")
 class Source(metaclass=abc.ABCMeta):
     @staticmethod
     @abc.abstractmethod
-    async def get_stream_url() -> 'TrackList':
+    async def get_source_uri() -> 'TrackList':
         '''
         Get playable url(s)
         '''
@@ -29,15 +29,15 @@ class Source(metaclass=abc.ABCMeta):
 
 
 class Track(metaclass=abc.ABCMeta):
-    url: str
-    stream_url: str
+    uri: str
+    source_uri: str
 
 
 class TrackList(list, metaclass=abc.ABCMeta):
-    url: str
+    uri: str
     last_refresh: float
     refresh_require_time: int  # -1 means wont check
-    url_status: 'Status'
+    source_status: 'Status'
 
     def __init__(self) -> None:
         super().__init__()
