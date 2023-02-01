@@ -1,0 +1,8 @@
+{
+  "inculde":[
+    "src",
+    ".venv"
+  ],
+  "venvPath": ".",
+  "venv": ".venv"
+}
