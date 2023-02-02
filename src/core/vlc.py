@@ -54,7 +54,7 @@ class Vlc:
 
     def load_media(self, media: Track):
         self.current_track = media
-        self.player.set_mrl(media.stream_url)
+        self.player.set_mrl(media.source_uri)
 
     def play(self):
         self.player.play()

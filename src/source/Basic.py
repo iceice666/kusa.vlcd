@@ -13,21 +13,6 @@ VIDEO_NOT_FOUND = Status("not_found")
 VIDEO_UNKNOWN = Status("unknown")
 
 
-class Source(metaclass=abc.ABCMeta):
-    @staticmethod
-    @abc.abstractmethod
-    async def get_source_uri() -> 'TrackList':
-        '''
-        Get playable url(s)
-        '''
-        pass
-
-    @staticmethod
-    @abc.abstractmethod
-    async def search(keyword):
-        pass
-
-
 class Track(metaclass=abc.ABCMeta):
     uri: str
     source_uri: str
@@ -45,4 +30,19 @@ class TrackList(list, metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def is_need_refresh(self) -> bool:
+        pass
+
+
+class Source(metaclass=abc.ABCMeta):
+    @staticmethod
+    @abc.abstractmethod
+    async def get_source_uri() -> TrackList:
+        '''
+        Get playable url(s)
+        '''
+        pass
+
+    @staticmethod
+    @abc.abstractmethod
+    async def search(keyword):
         pass

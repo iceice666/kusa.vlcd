@@ -42,7 +42,7 @@ class TrackList(_tracklist):
 
 class Youtube(Source):
     @staticmethod
-    async def get_source_uri(method: 'Method', video: str) -> 'TrackList':
+    async def get_source_uri(method: 'Method', video: str) -> TrackList:
         if method is Basic.BY_VIDEO_ID:
             video = f'https://youtu.be/{video}'
 
@@ -83,7 +83,7 @@ class Youtube(Source):
         return result
 
     @staticmethod
-    async def search(keyword: str) -> 'TrackList':
+    async def search(keyword: str) -> TrackList:
         results = requests.get("https://www.googleapis.com/youtube/v3/search?",
                                params={
                                    "part": "snippet",
