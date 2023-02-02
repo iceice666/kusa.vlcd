@@ -2,11 +2,11 @@ import os.path
 import subprocess
 import asyncio
 
-from src import Config
 
-from src.source.Basic import Source, Status, Method
-from src.source.Basic import Track as _track, TrackList as _tracklist
-from src.source import Basic
+from source.Basic import Source, Status, Method
+from source.Basic import Track as _track, TrackList as _tracklist
+from source import Basic
+import Config
 
 
 class Track(_track):
@@ -34,7 +34,7 @@ class TrackList(_tracklist):
 class Local(Source):
     @staticmethod
     async def search(keyword: str) -> TrackList:
-        r = subprocess.run(['fzf', '-f', keyword])
+        r = subprocess.run(['fzf', '-f', f'"{keyword}"'])
 
         rl = TrackList()
         if isinstance(r, subprocess.CompletedProcess) and r.stdout is not None:
@@ -44,7 +44,7 @@ class Local(Source):
 
         return rl
 
-    @staticmethod
+    @ staticmethod
     async def get_source_uri(method: 'Method', video: str) -> TrackList:
         r = TrackList()
         if method is Basic.BY_VIDEO_ID:
@@ -56,6 +56,3 @@ class Local(Source):
 
         r.append(Track(path, os.path.basename(path)))
         return r
-
-
-asyncio.run(Local.search("#1f1e33"))
