@@ -1,58 +1,44 @@
-import os.path
-import subprocess
-import asyncio
+import os
+import re
 
-
-from source.Basic import Source, Status, Method
-from source.Basic import Track as _track, TrackList as _tracklist
+import config
 from source import Basic
-import Config
+from source.Basic import Method, Source, Status
+from source.Basic import Track as _track
 
 
 class Track(_track):
     uri: str
     title: str
-
-    def __init__(self, path="",  title=""):
-        self.uri = path
-        self.title = title
-
-
-class TrackList(_tracklist):
-    uri: str
-
-    video_status: 'Status' = Basic.VIDEO_UNKNOWN
-
-    def __init__(self,) -> None:
-        super().__init__()
-
-    @property
-    def is_need_refresh(self) -> bool:
-        return False
+    source_uri: str
+    source_status: "Status"
 
 
 class Local(Source):
     @staticmethod
-    async def search(keyword: str) -> TrackList:
-        r = subprocess.run(['fzf', '-f', f'"{keyword}"'])
+    async def search(keyword: str) -> list[Track]:
+        r = []
+        for root, _, files in os.walk(config.Local.PATH):
+            for name in files:
+                if re.search(keyword, name) is not None:
+                    t = Track()
+                    t.uri = os.path.join(root, name)
+                    t.source_uri = t.uri
+                    t.title = name
 
-        rl = TrackList()
-        if isinstance(r, subprocess.CompletedProcess) and r.stdout is not None:
-            sl = str(r.stdout).split('\n')
+        return r
 
-            [rl.append(Track(Config.Local.PATH+i)) for i in sl]
-
-        return rl
-
-    @ staticmethod
-    async def get_source_uri(method: 'Method', video: str) -> TrackList:
-        r = TrackList()
+    @staticmethod
+    async def get_source_uri(method: "Method", video: str) -> list[Track]:
         if method is Basic.BY_VIDEO_ID:
-            path = Config.Local.PATH+video
+            path = config.Local.PATH + video
         elif method is Basic.BY_VIDEO_URI:
             path = video
         else:
-            return r
+            return []
 
-        r.append(Track(path, os.path.basename(path)))
-        return r
+        t = Track()
+        t.uri = path
+        t.source_uri = t.uri
+        t.title = os.path.basename(path)
+        return [t]
