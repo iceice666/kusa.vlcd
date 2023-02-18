@@ -1,5 +1,12 @@
 import asyncio
-from source.local import Local
+
+from core.vlcplayer import MusicPlayer
+from ui.cli import CLI
 
 
-asyncio.run(Local.search("#1f1e33"))
+async def main():
+    app = CLI(MusicPlayer())
+    await app.main()
+
+
+asyncio.run(main())

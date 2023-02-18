@@ -11,7 +11,7 @@ class Track(_track):
     uri: str
     title: str
     source_uri: str
-    source_status: "Status"
+    source_status: "Status" = Basic.VIDEO_UNKNOWN
 
 
 class Local(Source):
@@ -25,6 +25,8 @@ class Local(Source):
                     t.uri = os.path.join(root, name)
                     t.source_uri = t.uri
                     t.title = name
+                    t.source_status = Basic.VIDEO_AVABILABLE
+                    r.append(t)
 
         return r
 

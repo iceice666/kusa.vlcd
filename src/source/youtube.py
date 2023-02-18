@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 import requests
 import youtube_dl
 
-from src import config
-from src.source import Basic
-from src.source.Basic import Method, Source, Status
-from src.source.Basic import Track as _track
+import config
+from source import Basic
+from source.Basic import Method, Source, Status
+from source.Basic import Track as _track
 
 
 class Track(_track):
@@ -74,7 +74,7 @@ class Youtube(Source):
                 "type": "video",
                 "maxResults": "20",
                 "search_query": keyword,
-                "key": Config.Youtube.API_KEY,
+                "key": config.Youtube.API_KEY,
             },
         ).json()
 
